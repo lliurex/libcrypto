@@ -550,16 +550,12 @@ bool Inflator::DecodeBody()
 						break;
 					}
 		case DISTANCE_BITS:
-					if (m_distance >= sizeof(distanceExtraBits)/sizeof(distanceExtraBits[0]))
-						throw BadDistanceErr();
 					bits = distanceExtraBits[m_distance];
 					if (!m_reader.FillBuffer(bits))
 					{
 						m_nextDecode = DISTANCE_BITS;
 						break;
 					}
-					if (m_distance >= sizeof(distanceStarts)/sizeof(distanceStarts[0]))
-						throw BadDistanceErr();
 					m_distance = m_reader.GetBits(bits) + distanceStarts[m_distance];
 					OutputPast(m_literal, m_distance);
 				}

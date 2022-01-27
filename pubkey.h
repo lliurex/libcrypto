@@ -1497,19 +1497,9 @@ public:
 		// after virtual machine rollback
 		if (rng.CanIncorporateEntropy())
 			rng.IncorporateEntropy(representative, representative.size());
-
 		Integer k(rng, 1, params.GetSubgroupOrder()-1);
-		const Integer& q = params.GetSubgroupOrder();
-
-		// Due to timing attack on nonce length by Jancar
-		// https://github.com/weidai11/cryptopp/issues/869
-		Integer ks = k + q;
-		if (ks.BitCount() == q.BitCount()) {
-			ks += q;
-		}
-
 		Integer r, s;
-		r = params.ConvertElementToInteger(params.ExponentiateBase(ks));
+		r = params.ConvertElementToInteger(params.ExponentiateBase(k));
 		alg.Sign(params, key.GetPrivateExponent(), k, e, r, s);
 
 		/*
