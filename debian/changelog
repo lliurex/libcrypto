@@ -1,3 +1,9 @@
+libcrypto++ (5.6.4-9build1) bionic; urgency=medium
+
+  * Bionic backport
+
+ -- M.Angel Juan <m.angel.juan@gmail.com>  Thu, 27 Jan 2022 12:24:17 +0100
+
 libcrypto++ (5.6.4-9build1) focal; urgency=medium
 
   * No-change rebuild for libgcc-s1 package name change.
