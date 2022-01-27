@@ -1,0 +1,40 @@
+From 9fca0c28023a177106cf58a3de6da610f185a6e4 Mon Sep 17 00:00:00 2001
+From: Jeffrey Walton <noloader@gmail.com>
+Date: Fri, 8 Jan 2016 15:43:09 -0500
+Subject: [PATCH] Work around issue on ARMEL in MultiplyTop and GCC. ARMHF is
+ OK
+
+---
+ integer.cpp | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/integer.cpp b/integer.cpp
+index fcb14ce..e767bd9 100644
+--- a/integer.cpp
++++ b/integer.cpp
+@@ -67,6 +67,16 @@
+ # define CRYPTOPP_INTEGER_SSE2 (CRYPTOPP_BOOL_SSE2_ASM_AVAILABLE && CRYPTOPP_BOOL_X86)
+ #endif
+ 
++// Debian QEMU/ARMEL issue in MultiplyTop; see http://github.com/weidai11/cryptopp/issues/31.
++#if __ARMEL__ && (CRYPTOPP_GCC_VERSION >= 50200) && (CRYPTOPP_GCC_VERSION < 50300) && __OPTIMIZE__
++# define WORKAROUND_ARMEL_BUG 1
++#endif
++
++#if WORKAROUND_ARMEL_BUG
++# pragma GCC push_options
++# pragma GCC optimize("O1")
++#endif
++
+ NAMESPACE_BEGIN(CryptoPP)
+ 
+ bool AssignIntToInteger(const std::type_info &valueType, void *pInteger, const void *pInt)
+@@ -4549,4 +4559,8 @@ std::string IntToString<unsigned long long>(unsigned long long value, unsigned i
+ 
+ NAMESPACE_END
+ 
++#if WORKAROUND_ARMEL_BUG
++# pragma GCC pop_options
++#endif
++
+ #endif

@@ -1,0 +1,12 @@
+#doxygen-setup.diff
+#doxygen-main-link.diff
+#debian-config.diff
+#02-Work_around_issue_on_ARMEL_in_MultiplyTop_and_GCC.patch
+#03-Increase_range_for_GCC_workaround_on_ARMEL.patch
+Fix_potential_zeroizer_removal.patch
+Hurd-compile-fix.patch
+integer.diff
+CVE-2016-9939.patch
+Additional_ASN.1_validations.patch
+zinflate-564.diff
+CVE-2019-14318.patch

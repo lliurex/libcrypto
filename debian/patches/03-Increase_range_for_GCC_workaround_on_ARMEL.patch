@@ -1,0 +1,24 @@
+From dce2317195a7d9aa77b159fd1beddaf8358f6243 Mon Sep 17 00:00:00 2001
+From: Jeffrey Walton <noloader@gmail.com>
+Date: Sat, 9 Jan 2016 00:09:06 -0500
+Subject: [PATCH] Increase range for GCC workaround on ARMEL. After speaking
+ with AP from GCC, he states some issues are still likely present in Master,
+ which is GCC 6.0
+
+---
+ integer.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/integer.cpp b/integer.cpp
+index e767bd9..de5df00 100644
+--- a/integer.cpp
++++ b/integer.cpp
+@@ -68,7 +68,7 @@
+ #endif
+ 
+ // Debian QEMU/ARMEL issue in MultiplyTop; see http://github.com/weidai11/cryptopp/issues/31.
+-#if __ARMEL__ && (CRYPTOPP_GCC_VERSION >= 50200) && (CRYPTOPP_GCC_VERSION < 50300) && __OPTIMIZE__
++#if __ARMEL__ && (CRYPTOPP_GCC_VERSION >= 40900) && (CRYPTOPP_GCC_VERSION < 70000) && __OPTIMIZE__
+ # define WORKAROUND_ARMEL_BUG 1
+ #endif
+ 

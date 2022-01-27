@@ -1,0 +1,28 @@
+From 84b602cc7d9a3a56e188aed595865b27c2f9f2fc Mon Sep 17 00:00:00 2001
+From: Jeffrey Walton <noloader@gmail.com>
+Date: Fri, 28 Oct 2016 00:33:43 -0400
+Subject: [PATCH] Fix compile under Debian Hurd (i386) Debian Hurd defines
+ __MACH__, and it was picking up "#define CRYPTOPP_SECTION_INIT
+ __attribute__((section (__DATA,__data)))" intended for Apple linkers
+
+---
+ config.compat | 4 ++--
+ config.h      | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/config.h b/config.h
+index 86b98ae..39ab7e4 100644
+--- a/config.h
++++ b/config.h
+@@ -337,9 +337,9 @@ NAMESPACE_END
+ #endif
+ 
+ // The section attribute attempts to initialize CPU flags to avoid Valgrind findings above -O1
+-#if ((__MACH__ >= 1) && ((CRYPTOPP_LLVM_CLANG_VERSION >= 30600) || (CRYPTOPP_APPLE_CLANG_VERSION >= 70100) || (CRYPTOPP_GCC_VERSION >= 40300)))
++#if ((defined(__MACH__) && defined(__APPLE__)) && ((CRYPTOPP_LLVM_CLANG_VERSION >= 30600) || (CRYPTOPP_APPLE_CLANG_VERSION >= 70100) || (CRYPTOPP_GCC_VERSION >= 40300)))
+ 	#define CRYPTOPP_SECTION_INIT __attribute__((section ("__DATA,__data")))
+-#elif ((__ELF__ >= 1) && (CRYPTOPP_GCC_VERSION >= 40300))
++#elif (defined(__ELF__) && (CRYPTOPP_GCC_VERSION >= 40300))
+ 	#define CRYPTOPP_SECTION_INIT __attribute__((section ("nocommon")))
+ #else
+ 	#define CRYPTOPP_SECTION_INIT

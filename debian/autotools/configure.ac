@@ -1,0 +1,15 @@
+AC_INIT([Crypto++], [5.6.4], [cryptopp-users@googlegroups.com])
+AM_INIT_AUTOMAKE
+AC_CONFIG_SRCDIR(configure.ac)
+AC_CONFIG_HEADER([local.h])
+AM_MAINTAINER_MODE
+
+AC_PROG_CXX
+AC_PROG_LIBTOOL
+AC_PROG_INSTALL
+
+AC_C_BIGENDIAN
+
+AC_CONFIG_FILES([Makefile libcrypto++.pc])
+AC_CONFIG_MACRO_DIR([m4])
+AC_OUTPUT
